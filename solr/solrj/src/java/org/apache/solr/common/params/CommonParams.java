@@ -161,6 +161,9 @@ public interface CommonParams {
   /** Timeout value in milliseconds. If not set, or the value is &gt; 0, there is no timeout. */
   String TIME_ALLOWED = "timeAllowed";
 
+  /** Max CPU usage value in milliseconds. If not set, or the value is &gt; 0, there is no limit. */
+  String CPU_ALLOWED = "cpuAllowed";
+
   /** Is the query cancellable? */
   String IS_QUERY_CANCELLABLE = "canCancel";
 
