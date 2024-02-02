@@ -16,10 +16,11 @@
  */
 package org.apache.solr.search;
 
-import java.util.ArrayList;
-import java.util.List;
 import org.apache.lucene.index.QueryTimeout;
 import org.apache.solr.request.SolrQueryRequest;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Represents the limitations on the query. These limits might be wall clock time, cpu time memory,
@@ -30,8 +31,11 @@ public class QueryLimits implements QueryTimeout {
   private final List<QueryTimeout> limits = new ArrayList<>();
 
   public QueryLimits(SolrQueryRequest req) {
-    if (SolrQueryTimeLimit.hasTimeLimit(req)) {
+    if (SolrQueryTimeLimit.hasLimit(req)) {
       limits.add(new SolrQueryTimeLimit(req));
+    }
+    if (CpuTimeLimit.hasLimit(req)) {
+      limits.add(new CpuTimeLimit(req));
     }
   }
 

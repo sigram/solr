@@ -59,8 +59,10 @@ import org.apache.solr.pkg.PackageAPI;
 import org.apache.solr.pkg.PackageListeners;
 import org.apache.solr.pkg.SolrPackageLoader;
 import org.apache.solr.request.SolrQueryRequest;
+import org.apache.solr.request.SolrRequestInfo;
 import org.apache.solr.response.SolrQueryResponse;
 import org.apache.solr.search.CursorMark;
+import org.apache.solr.search.QueryLimits;
 import org.apache.solr.search.SortSpec;
 import org.apache.solr.search.facet.FacetModule;
 import org.apache.solr.security.AuthorizationContext;
@@ -422,9 +424,11 @@ public class SearchHandler extends RequestHandlerBase
       return; // Circuit breaker tripped, return immediately
     }
 
+    // initialize QueryLimits at the start of processing
+    QueryLimits limits = SolrRequestInfo.getRequestInfo().getLimits();
+
     // creates a ShardHandler object only if it's needed
     final ShardHandler shardHandler1 = getAndPrepShardHandler(req, rb);
-
     if (timer == null) {
       // non-debugging prepare phase
       for (SearchComponent c : components) {
